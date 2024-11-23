@@ -38,11 +38,8 @@ public class LottoController {
         lottoService.initBonus(bonusNumber);
 
         Map<Rank, Integer> lottoResult = lottoService.calculateLottoResult(lottos);
-        for (Rank rank : lottoResult.keySet()) {
-            System.out.print(rank+" ");
-            System.out.print(lottoResult.get(rank));
-            System.out.println();
-        }
+        outputView.printStatisticMessage();
+        outputView.printStatisticResult(lottoResult);
     }
 
 }
