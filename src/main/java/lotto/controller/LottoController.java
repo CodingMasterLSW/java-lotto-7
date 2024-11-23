@@ -32,7 +32,7 @@ public class LottoController {
         lottoService.initWinner(userInput);
 
         inputView.printBonusNumberMessage();
-        String bonusNumber = inputView.bonusInput();
+        int bonusNumber = inputView.bonusInput();
 
     }
 
