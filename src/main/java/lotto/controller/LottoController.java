@@ -28,8 +28,8 @@ public class LottoController {
         outputView.printLotto(lottos);
 
         inputView.printWinnerNumberMessage();
-        inputView.purchaseInput();
-
+        String userInput = inputView.winnerInput();
+        lottoService.initWinner(userInput);
     }
 
 }
