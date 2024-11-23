@@ -2,6 +2,7 @@ package lotto;
 
 import static lotto.exception.ErrorMessage.INVALID_LOTTO_SIZE;
 
+import java.util.Collections;
 import java.util.List;
 
 public class Lotto {
@@ -18,6 +19,10 @@ public class Lotto {
         if (numbers.size() != LOTTO_SIZE) {
             throw new IllegalArgumentException(INVALID_LOTTO_SIZE.getMessage());
         }
+    }
+
+    public List<Integer> getNumbers() {
+        return Collections.unmodifiableList(numbers);
     }
 
 }
