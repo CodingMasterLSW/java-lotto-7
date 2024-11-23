@@ -30,6 +30,10 @@ public class LottoController {
         inputView.printWinnerNumberMessage();
         String userInput = inputView.winnerInput();
         lottoService.initWinner(userInput);
+
+        inputView.printBonusNumberMessage();
+        String bonusNumber = inputView.bonusInput();
+
     }
 
 }

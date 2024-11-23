@@ -11,7 +11,7 @@ public class InputView {
     private static final String PURCHASE_AMOUNT_MESSAGE = "구입금액을 입력해 주세요.";
     private static final Pattern NUMBER_PATTERN = Pattern.compile("\\d+");
     private static final String WINNER_NUMBER_MESSAGE = "당첨 번호를 입력해 주세요.";
-
+    private static final String BONUS_NUMBER_MESSAGE = "보너스 번호를 입력해 주세요.";
 
     private InputView() {
     }
@@ -41,8 +41,24 @@ public class InputView {
         return userInput;
     }
 
+    public void printBonusNumberMessage() {
+        printBlank();
+        printMessage(BONUS_NUMBER_MESSAGE);
+    }
+
+    public String bonusInput() {
+        String userInput = Console.readLine();
+        validateEmpty(userInput);
+        validateNumber(userInput);
+        return userInput;
+    }
+
     private void printMessage(String message) {
         System.out.println(message);
+    }
+
+    private void printBlank() {
+        System.out.println();
     }
 
     private void validateEmpty(String userInput) {
