@@ -3,9 +3,10 @@ package lotto.view;
 import static lotto.domain.Rank.SECOND_PLACE;
 import static lotto.domain.Rank.ZERO;
 
-import java.util.List;
 import java.util.Map;
 import lotto.domain.Lotto;
+import lotto.domain.LottoResult;
+import lotto.domain.Lottos;
 import lotto.domain.Rank;
 
 public class OutputView {
@@ -31,8 +32,8 @@ public class OutputView {
         printBlank();
     }
 
-    public void printLotto(List<Lotto> lottos) {
-        for (Lotto lotto : lottos) {
+    public void printLotto(Lottos lottos) {
+        for (Lotto lotto : lottos.getLottos()) {
             System.out.println(lotto.getNumbers());
         }
         System.out.println();
@@ -44,7 +45,8 @@ public class OutputView {
         printMessage(HYPHEN);
     }
 
-    public void printStatisticResult(Map<Rank, Integer> result) {
+    public void printStatisticResult(LottoResult LottoResult) {
+        Map<Rank, Integer> result = LottoResult.getResult();
         for (Rank rank : result.keySet()) {
             if (rank == ZERO) {
                 continue;

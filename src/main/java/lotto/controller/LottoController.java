@@ -1,10 +1,10 @@
 package lotto.controller;
 
-import java.util.List;
-import java.util.Map;
 import java.util.function.Supplier;
-import lotto.domain.Lotto;
-import lotto.domain.Rank;
+import lotto.domain.LottoResult;
+import lotto.domain.Lottos;
+import lotto.domain.Purchase;
+import lotto.domain.Winner;
 import lotto.service.LottoService;
 import lotto.view.InputView;
 import lotto.view.OutputView;
@@ -23,12 +23,14 @@ public class LottoController {
 
     public void start() {
         int purchaseAmount = getPurchaseAmount();
-        int count = handlePurchaseCount(purchaseAmount);
-        List<Lotto> lottos = showPurchaseLotto(count);
-        handleWinnerNumber();
-        handleBonusNumber();
-        handleLottoResult(lottos);
-        handleProfit();
+        Purchase purchase = lottoService.createPurchase(purchaseAmount);
+
+        int count = handlePurchaseCount(purchase);
+        Lottos lottos = showPurchaseLotto(count);
+        Winner winner = handleWinnerNumber();
+        handleBonusNumber(winner);
+        handleLottoResult(lottos, winner);
+        handleProfit(purchase);
     }
 
     private int getPurchaseAmount() {
@@ -37,40 +39,41 @@ public class LottoController {
         return purchaseAmount;
     }
 
-    private int handlePurchaseCount(int purchaseAmount) {
-        int count = lottoService.purchaseLotto(purchaseAmount);
+    private int handlePurchaseCount(Purchase purchase) {
+        int count = lottoService.purchaseLotto(purchase);
         outputView.printPurchaseMessage(count);
         return count;
     }
 
-    private void handleBonusNumber() {
+    private void handleBonusNumber(Winner winner) {
         inputView.printBonusNumberMessage();
         retryOnInvalidInput(() -> {
             int bonusNumber = inputView.bonusInput();
-            lottoService.initBonus(bonusNumber);
+            lottoService.initBonus(bonusNumber, winner);
             return null;
         });
     }
 
-    private void handleLottoResult(List<Lotto> lottos) {
-        Map<Rank, Integer> lottoResult = lottoService.calculateLottoResult(lottos);
+    private void handleLottoResult(Lottos lottos, Winner winner) {
+        LottoResult lottoResult = lottoService.calculateLottoResult(lottos, winner);
         outputView.printStatisticMessage();
         outputView.printStatisticResult(lottoResult);
     }
 
-    private void handleWinnerNumber() {
+    private Winner handleWinnerNumber() {
         inputView.printWinnerNumberMessage();
         String userInput = retryOnInvalidInput(() -> inputView.winnerInput());
-        lottoService.initWinner(userInput);
+        Winner winner = lottoService.initWinner(userInput);
+        return winner;
     }
 
-    private void handleProfit() {
-        double profit = lottoService.calculateProfit();
+    private void handleProfit(Purchase purchase) {
+        double profit = lottoService.calculateProfit(purchase);
         outputView.printProfit(profit);
     }
 
-    private List<Lotto>  showPurchaseLotto(int count) {
-        List<Lotto> lottos = lottoService.buy(count);
+    private Lottos showPurchaseLotto(int count) {
+        Lottos lottos = lottoService.buy(count);
         outputView.printLotto(lottos);
         return lottos;
     }

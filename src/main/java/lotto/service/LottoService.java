@@ -2,7 +2,6 @@ package lotto.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import lotto.domain.Lotto;
 import lotto.domain.LottoResult;
 import lotto.domain.Lottos;
@@ -16,57 +15,59 @@ import lotto.utils.RandomNumber;
 public class LottoService {
 
     private final RandomNumber randomNumber;
-    private Lotto lotto;
-    private Purchase purchase;
-    private InputParser inputParser;
-    private Winner winner;
-    private Lottos lottos;
-    private LottoResult lottoResult = LottoResult.create();
-    private Profit profit = Profit.create();
+    private final LottoResult lottoResult;
+    private final Profit profit;
+    private final InputParser inputParser;
 
-    public LottoService(RandomNumber randomNumber, InputParser inputParser) {
+    public LottoService(RandomNumber randomNumber, InputParser inputParser, LottoResult lottoResult,
+            Profit profit) {
         this.randomNumber = randomNumber;
         this.inputParser = inputParser;
+        this.lottoResult = lottoResult;
+        this.profit = profit;
     }
 
-    public int purchaseLotto(int purchaseAmount) {
-        purchase = Purchase.from(purchaseAmount);
+    public Purchase createPurchase(int purchaseAmount) {
+        return Purchase.from(purchaseAmount);
+    }
+
+    public int purchaseLotto(Purchase purchase) {
         return purchase.calculateCount();
     }
 
-    public List<Lotto> buy(int count) {
+    public Lottos buy(int count) {
         List<Lotto> tmpLottos = new ArrayList<>();
 
         for (int i = 0; i < count; i++) {
-            lotto = new Lotto(randomNumber.generate());
+            Lotto lotto = new Lotto(randomNumber.generate());
             tmpLottos.add(lotto);
         }
-        lottos = Lottos.from(tmpLottos);
-        return lottos.getLottos();
+        Lottos lottos = Lottos.from(tmpLottos);
+        return lottos;
     }
 
-    public void initWinner(String userInput) {
+    public Winner initWinner(String userInput) {
         List<Integer> winnerNumbers = inputParser.convertUserInput(userInput);
-        winner = Winner.of(winnerNumbers);
+        Winner winner = Winner.of(winnerNumbers);
+        return winner;
     }
 
-    public void initBonus(int bonusNumber) {
+    public void initBonus(int bonusNumber, Winner winner) {
         winner.initBonusNumber(bonusNumber);
     }
 
-    public Map<Rank, Integer> calculateLottoResult(List<Lotto> lottos) {
-        for (Lotto lotto : lottos) {
+    public LottoResult calculateLottoResult(Lottos lottos, Winner winner) {
+        for (Lotto lotto : lottos.getLottos()) {
             int count = lotto.countWinningNumber(winner.getNumbers());
             boolean hasBonusNumber = lotto.hasBonusNumber(winner.getBonusNumber());
             Rank rank = Rank.decisionRank(count, hasBonusNumber);
             lottoResult.calculate(rank);
         }
-        return lottoResult.getResult();
+        return lottoResult;
     }
 
-    public double calculateProfit() {
+    public double calculateProfit(Purchase purchase) {
         return profit.calculate(purchase.getAmount(), lottoResult.calculateTotalPrize());
     }
-
 
 }
