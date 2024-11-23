@@ -1,9 +1,9 @@
 package lotto.service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import lotto.domain.Lotto;
+import lotto.domain.Lottos;
 import lotto.domain.Purchase;
 import lotto.domain.Winner;
 import lotto.utils.InputParser;
@@ -16,6 +16,7 @@ public class LottoService {
     private Purchase purchase;
     private InputParser inputParser;
     private Winner winner;
+    private Lottos lottos;
 
     public LottoService(RandomNumber randomNumber, InputParser inputParser) {
         this.randomNumber = randomNumber;
@@ -28,13 +29,14 @@ public class LottoService {
     }
 
     public List<Lotto> buy(int count) {
-        List<Lotto> lottos = new ArrayList<>();
+        List<Lotto> tmpLottos = new ArrayList<>();
 
         for (int i = 0; i < count; i++) {
             lotto = new Lotto(randomNumber.generate());
-            lottos.add(lotto);
+            tmpLottos.add(lotto);
         }
-        return Collections.unmodifiableList(lottos);
+        lottos = Lottos.from(tmpLottos);
+        return lottos.getLottos();
     }
 
     public void initWinner(String userInput) {
