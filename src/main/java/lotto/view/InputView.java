@@ -18,11 +18,11 @@ public class InputView {
         return new InputView();
     }
 
-    public String purchaseInput() {
+    public int purchaseInput() {
         String userInput = Console.readLine();
         validateEmpty(userInput);
         validateNumber(userInput);
-        return userInput;
+        return Integer.parseInt(userInput);
     }
 
     public void printPurchaseMessage() {
