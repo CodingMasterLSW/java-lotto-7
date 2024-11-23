@@ -17,6 +17,13 @@ public class Purchase {
         return new Purchase(amount);
     }
 
+    public int calculateCount() {
+        return amount / PURCHASE_UNIT;
+    }
+
+    // 구입 금액 -> purchaseAmount
+    // 로또 가격 1000 -> purchaseAmount / 1000 -> 3 <-
+
     private void validateAmount(int amount) {
         if (amount % PURCHASE_UNIT != 0) {
             throw new IllegalArgumentException(INVALID_PURCHASE_UNIT.getMessage());
