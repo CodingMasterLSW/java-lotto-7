@@ -1,7 +1,9 @@
 package lotto.controller;
 
 import java.util.List;
+import java.util.Map;
 import lotto.domain.Lotto;
+import lotto.domain.Rank;
 import lotto.service.LottoService;
 import lotto.view.InputView;
 import lotto.view.OutputView;
@@ -35,6 +37,12 @@ public class LottoController {
         int bonusNumber = inputView.bonusInput();
         lottoService.initBonus(bonusNumber);
 
+        Map<Rank, Integer> lottoResult = lottoService.calculateLottoResult(lottos);
+        for (Rank rank : lottoResult.keySet()) {
+            System.out.print(rank+" ");
+            System.out.print(lottoResult.get(rank));
+            System.out.println();
+        }
     }
 
 }

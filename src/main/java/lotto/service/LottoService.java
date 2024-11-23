@@ -2,9 +2,12 @@ package lotto.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import lotto.domain.Lotto;
+import lotto.domain.LottoResult;
 import lotto.domain.Lottos;
 import lotto.domain.Purchase;
+import lotto.domain.Rank;
 import lotto.domain.Winner;
 import lotto.utils.InputParser;
 import lotto.utils.RandomNumber;
@@ -17,6 +20,7 @@ public class LottoService {
     private InputParser inputParser;
     private Winner winner;
     private Lottos lottos;
+    private LottoResult lottoResult = LottoResult.create();
 
     public LottoService(RandomNumber randomNumber, InputParser inputParser) {
         this.randomNumber = randomNumber;
@@ -46,5 +50,15 @@ public class LottoService {
 
     public void initBonus(int bonusNumber) {
         winner.initBonusNumber(bonusNumber);
+    }
+
+    public Map<Rank, Integer> calculateLottoResult(List<Lotto> lottos) {
+        for (Lotto lotto : lottos) {
+            int count = lotto.countWinningNumber(winner.getNumbers());
+            boolean hasBonusNumber = lotto.hasBonusNumber(winner.getBonusNumber());
+            Rank rank = Rank.decisionRank(count, hasBonusNumber);
+            lottoResult.calculate(rank);
+        }
+        return lottoResult.getResult();
     }
 }
