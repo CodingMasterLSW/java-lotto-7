@@ -2,6 +2,7 @@ package lotto.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 import lotto.domain.Lotto;
 import lotto.domain.Rank;
 import lotto.service.LottoService;
@@ -21,8 +22,7 @@ public class LottoController {
     }
 
     public void start() {
-        inputView.printPurchaseMessage();
-        int purchaseAmount = inputView.purchaseInput();
+        int purchaseAmount = getPurchaseAmount();
         int count = lottoService.purchaseLotto(purchaseAmount);
         outputView.printPurchaseMessage(count);
 
@@ -30,18 +30,38 @@ public class LottoController {
         outputView.printLotto(lottos);
 
         inputView.printWinnerNumberMessage();
-        String userInput = inputView.winnerInput();
+        String userInput = retryOnInvalidInput(() -> inputView.winnerInput());
         lottoService.initWinner(userInput);
 
         inputView.printBonusNumberMessage();
-        int bonusNumber = inputView.bonusInput();
-        lottoService.initBonus(bonusNumber);
+
+        retryOnInvalidInput(() -> {
+            int bonusNumber = inputView.bonusInput();
+            lottoService.initBonus(bonusNumber);
+            return null;
+        });
 
         Map<Rank, Integer> lottoResult = lottoService.calculateLottoResult(lottos);
         outputView.printStatisticMessage();
         outputView.printStatisticResult(lottoResult);
         double profit = lottoService.calculateProfit();
         outputView.printProfit(profit);
+    }
+
+    private int getPurchaseAmount() {
+        inputView.printPurchaseMessage();
+        int purchaseAmount = retryOnInvalidInput(() -> inputView.purchaseInput());
+        return purchaseAmount;
+    }
+
+    private <T> T retryOnInvalidInput(Supplier<T> input) {
+        while (true) {
+            try {
+                return input.get();
+            } catch (IllegalArgumentException e) {
+                outputView.printErrorMessage(e.getMessage());
+            }
+        }
     }
 
 }

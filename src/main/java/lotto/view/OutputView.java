@@ -65,6 +65,10 @@ public class OutputView {
         System.out.printf(PROFIT_MESSAGE, profit);
     }
 
+    public void printErrorMessage(String errorMessage) {
+        System.out.println(errorMessage);
+    }
+
     private void printMessage(String message) {
         System.out.println(message);
     }
