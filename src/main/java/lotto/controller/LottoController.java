@@ -26,9 +26,7 @@ public class LottoController {
         outputView.printPurchaseMessage(count);
 
         List<Lotto> lottos = lottoService.buy(count);
-        for (Lotto lotto : lottos) {
-            System.out.println(lotto.getNumbers());
-        }
+        outputView.printLotto(lottos);
     }
 
 }
