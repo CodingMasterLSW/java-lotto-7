@@ -15,14 +15,25 @@ public class Lotto {
         this.numbers = numbers;
     }
 
+    public int countWinningNumber(List<Integer> winningNumber) {
+        return (int) winningNumber.stream()
+                .filter(numbers::contains)
+                .count();
+    }
+
+    public boolean hasBonusNumber(int bonusNumber) {
+        return numbers.contains(bonusNumber);
+    }
+
+    public List<Integer> getNumbers() {
+        return Collections.unmodifiableList(numbers);
+    }
+
     private void validate(List<Integer> numbers) {
         if (numbers.size() != LOTTO_SIZE) {
             throw new IllegalArgumentException(INVALID_LOTTO_SIZE.getMessage());
         }
     }
 
-    public List<Integer> getNumbers() {
-        return Collections.unmodifiableList(numbers);
-    }
 
 }
