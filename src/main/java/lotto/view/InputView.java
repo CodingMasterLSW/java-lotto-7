@@ -1,5 +1,7 @@
 package lotto.view;
 
+import static lotto.exception.ErrorMessage.NOT_INPUT;
+
 import camp.nextstep.edu.missionutils.Console;
 
 public class InputView {
@@ -14,7 +16,9 @@ public class InputView {
     }
 
     public String purchaseInput() {
-        return Console.readLine();
+        String userInput = Console.readLine();
+        validateEmpty(userInput);
+        return userInput;
     }
 
     public void printPurchaseMessage() {
@@ -23,5 +27,11 @@ public class InputView {
 
     private void printMessage(String message) {
         System.out.println(message);
+    }
+
+    private void validateEmpty(String userInput) {
+        if (userInput.isEmpty() || userInput == null) {
+            throw new IllegalArgumentException(NOT_INPUT.getMessage());
+        }
     }
 }
