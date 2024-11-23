@@ -26,6 +26,10 @@ public class LottoController {
 
         List<Lotto> lottos = lottoService.buy(count);
         outputView.printLotto(lottos);
+
+        inputView.printWinnerNumberMessage();
+        inputView.purchaseInput();
+
     }
 
 }

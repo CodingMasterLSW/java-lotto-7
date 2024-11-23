@@ -10,6 +10,8 @@ public class InputView {
 
     private static final String PURCHASE_AMOUNT_MESSAGE = "구입금액을 입력해 주세요.";
     private static final Pattern NUMBER_PATTERN = Pattern.compile("\\d+");
+    private static final String WINNER_NUMBER_MESSAGE = "당첨 번호를 입력해 주세요.";
+
 
     private InputView() {
     }
@@ -27,6 +29,16 @@ public class InputView {
 
     public void printPurchaseMessage() {
         printMessage(PURCHASE_AMOUNT_MESSAGE);
+    }
+
+    public void printWinnerNumberMessage() {
+        printMessage(WINNER_NUMBER_MESSAGE);
+    }
+
+    public String winnerInput() {
+        String userInput = Console.readLine();
+        validateEmpty(userInput);
+        return userInput;
     }
 
     private void printMessage(String message) {
