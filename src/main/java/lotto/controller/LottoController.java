@@ -2,20 +2,23 @@ package lotto.controller;
 
 import java.util.List;
 import lotto.Lotto;
-import lotto.config.AppConfig;
 import lotto.domain.Purchase;
 import lotto.service.LottoService;
-import lotto.utils.RandomNumber;
 import lotto.view.InputView;
 import lotto.view.OutputView;
 
 public class LottoController {
 
-    private InputView inputView = InputView.create();
-    private OutputView outputView = OutputView.create();
-    private RandomNumber randomNumber = RandomNumber.create();
+    private final InputView inputView;
+    private final OutputView outputView;
+    private final LottoService lottoService;
     private Purchase purchase;
-    private LottoService lottoService = AppConfig.createLottoService();
+
+    public LottoController(InputView inputView, OutputView outputView, LottoService lottoService) {
+        this.inputView = inputView;
+        this.outputView = outputView;
+        this.lottoService = lottoService;
+    }
 
     public void start() {
         inputView.printPurchaseMessage();
