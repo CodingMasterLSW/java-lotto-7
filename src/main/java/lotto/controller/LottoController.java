@@ -33,6 +33,7 @@ public class LottoController {
 
         inputView.printBonusNumberMessage();
         int bonusNumber = inputView.bonusInput();
+        lottoService.initBonus(bonusNumber);
 
     }
 

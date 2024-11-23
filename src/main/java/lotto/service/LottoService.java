@@ -15,6 +15,7 @@ public class LottoService {
     private Lotto lotto;
     private Purchase purchase;
     private InputParser inputParser;
+    private Winner winner;
 
     public LottoService(RandomNumber randomNumber, InputParser inputParser) {
         this.randomNumber = randomNumber;
@@ -38,6 +39,10 @@ public class LottoService {
 
     public void initWinner(String userInput) {
         List<Integer> winnerNumbers = inputParser.convertUserInput(userInput);
-        Winner winner = Winner.of(winnerNumbers);
+        winner = Winner.of(winnerNumbers);
+    }
+
+    public void initBonus(int bonusNumber) {
+        winner.initBonusNumber(bonusNumber);
     }
 }
