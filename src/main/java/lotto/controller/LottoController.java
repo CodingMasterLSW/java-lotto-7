@@ -41,7 +41,7 @@ public class LottoController {
         outputView.printStatisticMessage();
         outputView.printStatisticResult(lottoResult);
         double profit = lottoService.calculateProfit();
-        System.out.println(profit);
+        outputView.printProfit(profit);
     }
 
 }

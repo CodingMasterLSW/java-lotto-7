@@ -13,6 +13,7 @@ public class OutputView {
     private static final String STATISTIC_MESSAGE = "당첨 통계";
     private static final String HYPHEN = "---";
     private static final String LOTTO_RESULT = "%s개 일치 (%,d원) - %s개";
+    private static final String PROFIT_MESSAGE = "총 수익률은 %s%%입니다.";
 
     private OutputView() {
     }
@@ -49,7 +50,10 @@ public class OutputView {
                     result.get(rank));
             System.out.println();
         }
+    }
 
+    public void printProfit(double profit) {
+        System.out.printf(PROFIT_MESSAGE, profit);
     }
 
     private void printMessage(String message) {
