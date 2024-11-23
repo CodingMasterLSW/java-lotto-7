@@ -1,8 +1,12 @@
 package lotto;
 
+import static lotto.exception.ErrorMessage.INVALID_LOTTO_SIZE;
+
 import java.util.List;
 
 public class Lotto {
+
+    private static final int LOTTO_SIZE = 6;
     private final List<Integer> numbers;
 
     public Lotto(List<Integer> numbers) {
@@ -11,10 +15,9 @@ public class Lotto {
     }
 
     private void validate(List<Integer> numbers) {
-        if (numbers.size() != 6) {
-            throw new IllegalArgumentException("[ERROR] 로또 번호는 6개여야 합니다.");
+        if (numbers.size() != LOTTO_SIZE) {
+            throw new IllegalArgumentException(INVALID_LOTTO_SIZE.getMessage());
         }
     }
 
-    // TODO: 추가 기능 구현
 }
