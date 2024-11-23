@@ -40,6 +40,8 @@ public class LottoController {
         Map<Rank, Integer> lottoResult = lottoService.calculateLottoResult(lottos);
         outputView.printStatisticMessage();
         outputView.printStatisticResult(lottoResult);
+        double profit = lottoService.calculateProfit();
+        System.out.println(profit);
     }
 
 }

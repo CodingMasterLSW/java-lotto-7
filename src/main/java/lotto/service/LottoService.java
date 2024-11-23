@@ -6,6 +6,7 @@ import java.util.Map;
 import lotto.domain.Lotto;
 import lotto.domain.LottoResult;
 import lotto.domain.Lottos;
+import lotto.domain.Profit;
 import lotto.domain.Purchase;
 import lotto.domain.Rank;
 import lotto.domain.Winner;
@@ -21,6 +22,7 @@ public class LottoService {
     private Winner winner;
     private Lottos lottos;
     private LottoResult lottoResult = LottoResult.create();
+    private Profit profit = Profit.create();
 
     public LottoService(RandomNumber randomNumber, InputParser inputParser) {
         this.randomNumber = randomNumber;
@@ -61,4 +63,10 @@ public class LottoService {
         }
         return lottoResult.getResult();
     }
+
+    public double calculateProfit() {
+        return profit.calculate(purchase.getAmount(), lottoResult.calculateTotalPrize());
+    }
+
+
 }

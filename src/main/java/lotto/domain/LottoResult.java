@@ -25,4 +25,12 @@ public class LottoResult {
     public Map<Rank, Integer> getResult() {
         return Collections.unmodifiableMap(result);
     }
+
+    public int calculateTotalPrize() {
+        int totalPrize = 0;
+        for (Rank rank : result.keySet()) {
+            totalPrize += (rank.getPrize() * result.get(rank));
+        }
+        return totalPrize;
+    }
 }
